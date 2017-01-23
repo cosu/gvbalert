@@ -1,12 +1,13 @@
-from __future__ import print_function
 from __future__ import absolute_import
+from __future__ import print_function
+
+import logging
+import os
+import pickle
 
 import tweepy
-import pickle
-import os
-import logging
 
-from gvbalert import tweet
+from tweet import Tweet
 
 logger = logging.getLogger(__name__)
 
@@ -40,13 +41,28 @@ def dump_to_pkl():
 def parse_timeline(api):
     i = 0
     logger.debug('starting to parse timeline')
-    for status in tweepy.Cursor(api.user_timeline, screen_name='GVB_actueel').items(100):
-        t = tweet.Tweet.from_tweet(status)
+    results = []
+    MAX_ITEMS = 100
+    for status in tweepy.Cursor(api.user_timeline, screen_name='GVB_actueel').items(MAX_ITEMS):
+        t = Tweet.from_tweet(status)
         if '26' in t.lines:
             i += 1
             logger.debug("%s %s %s %s", t.event_type, t.lines, t.text, t.created_at)
     logger.debug('done parsing %s' % i)
+    return results
 
+
+def handler(event, context):
+    logger.debug(event)
+    configure_logging()
+    api = build_api()
+    results = parse_timeline(api)
+
+    if results:
+        logger.debug("Doing stuff")
+        # send email
+
+    return results
 
 if __name__ == '__main__':
     configure_logging()

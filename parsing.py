@@ -1,5 +1,6 @@
 import re
 
+
 def remove_links(text):
     """
     Removes http links from the text
@@ -36,7 +37,7 @@ def extract_event_type(text):
     :param text:
     :return:
     """
-    event_type_regex = re.compile(r'verstoring|langzaam|vertraging|druk|omleiding')
+    event_type_regex = re.compile(r'verstoring|langzaam|vertraging|druk|omleiding|dienstregeling')
     match = event_type_regex.search(text)
     return match.group() if match else None
 

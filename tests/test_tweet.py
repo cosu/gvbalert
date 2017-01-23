@@ -1,6 +1,7 @@
-import unittest
 import datetime
-from gvbalert.tweet import Tweet
+import unittest
+
+from tweet import Tweet
 
 
 class MockTweet(object):

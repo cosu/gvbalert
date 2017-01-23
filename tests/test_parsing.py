@@ -1,7 +1,10 @@
+from __future__ import print_function
+
 import unittest
 
-from gvbalert.tweet import DISTURBANCE, DELAY, DETOUR
-from gvbalert.parsing import extract_lines, extract_ride_type, remove_links, extract_event_type, extract_destination, \
+from tweet import DISTURBANCE, DELAY, DETOUR
+
+from parsing import extract_lines, extract_ride_type, remove_links, extract_event_type, extract_destination, \
     extract_reason
 
 
@@ -116,3 +119,16 @@ class TestParsing(unittest.TestCase):
     def test_stop_station(self):
         text = 'Bus 22 (richting Station Sloterdijk) halteert weer bij de Oostzaanstraat.'
 
+    def test_chunk(self):
+        the_list = [1, 2, 3, 4]
+        self.assertEquals([(1, 2), (3, 4)], chunk(the_list, 2))
+
+        the_list = [1, 2, 3, 4, 5]
+        print(chunk(the_list, 2))
+
+
+def chunk(the_list, size):
+    from itertools import izip_longest
+
+    it = [iter(the_list)] * size
+    return list(izip_longest(*it))

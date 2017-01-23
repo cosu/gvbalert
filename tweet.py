@@ -3,14 +3,13 @@ import attr
 from parsing import extract_event_type, extract_lines, extract_ride_type, extract_reason, remove_links, extract_destination
 
 DISTURBANCE = {'en': ['disturbance'], 'nl': ['verstoring']}
-DELAY = {'en': ['delay'], 'nl': ['langzaam', 'vertraging']}
+DELAY = {'en': ['delay'], 'nl': ['langzaam', 'vertraging', 'dienstregeling']}
 CROWDED = {'en': 'crowded', 'nl': ['druk']}
 RECOVERED = {'en': 'recovered', 'nl': ''}
 UNKNOWN = {'en': 'n/a', 'nl': ['n/a']}
 OTHER = {'en': 'other', 'nl': ['other']}
 DETOUR = {'en': 'detour', 'nl': ['omleiding']}
 EVENT_TYPES = [DISTURBANCE, DELAY, CROWDED, RECOVERED, UNKNOWN, DETOUR]
-
 
 
 @attr.s
@@ -40,6 +39,11 @@ class Tweet(object):
         ride_type = extract_ride_type(cleaned_text)
         destination = extract_destination(cleaned_text)
 
-        return cls(created_at=tweet.created_at, id=tweet.id, text=tweet.text,
-            event_type=event_type, reason=reason, lines=lines, ride_type=ride_type,
-            destination=destination)
+        return cls(created_at=tweet.created_at,
+                   id=tweet.id,
+                   text=tweet.text,
+                   event_type=event_type,
+                   reason=reason,
+                   lines=lines,
+                   ride_type=ride_type,
+                   destination=destination)
